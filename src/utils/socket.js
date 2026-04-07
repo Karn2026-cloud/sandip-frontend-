@@ -5,13 +5,15 @@ let socket = null;
 export function connectSocket(token) {
   if (socket?.connected) return socket;
 
-  socket = io('http://localhost:5001', {
-    auth: { token },
-    transports: ['websocket', 'polling'],
-    reconnection: true,
-    reconnectionAttempts: 10,
-    reconnectionDelay: 1000,
-  });
+  const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
+
+socket = io(SOCKET_URL, {
+  auth: { token },
+  transports: ['websocket', 'polling'],
+  reconnection: true,
+  reconnectionAttempts: 10,
+  reconnectionDelay: 1000,
+});
 
   socket.on('connect', () => {
     console.log('🔌 Socket connected:', socket.id);
